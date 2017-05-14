@@ -30,7 +30,7 @@ Calvin Lee, @stalk.calvin
 <br/>
 <a href="https://www.linkedin.com/in/stalkme"><img alt="Add me to Linkedin" src="https://image.freepik.com/free-icon/linkedin-logo_318-50643.jpg" height="20px" width="20px"/></a> <span><a href="https://www.linkedin.com/in/stalkme">LinkedIn</a></span>
 
-Ways to play the game:
+## Ways to play the game:
 
 1. `mvn clean compile test package` to run as jar
 2. Run the main function from Main class
