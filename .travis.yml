@@ -1,0 +1,19 @@
+before_script:
+ - export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
+ - export MAVEN_OPTS="-Xmx2048m"
+ - echo $JAVA_TOOL_OPTIONS
+ - echo $MAVEN_OPTS
+
+language: java
+
+notifications:
+  email:
+    recipients:
+      - stalk.calvin@gmail.com
+    on_success: change
+    on_failure: always
+
+jdk:
+  - oraclejdk8
+
+script: "mvn clean compile test"
