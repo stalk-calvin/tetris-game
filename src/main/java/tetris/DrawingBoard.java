@@ -14,7 +14,7 @@ class DrawingBoard extends Canvas {
 
     private static final int PIECE_WIDTH = 16;
     private static final int BLOCKDRAWSIZEPIECE = 14;
-    private static final int FIRST_SCORE_BRACKET = 50;
+    private static final int FIRST_SCORE_BRACKET = 500;
     private static final int SECOND_SCORE_BRACKET = 1000;
     private static final int THIRD_SCORE_BRACKET = 3000;
     private static final int FOURTH_SCORE_BRACKET = 5000;
@@ -261,24 +261,21 @@ class DrawingBoard extends Canvas {
         }
         graphics.drawString(String.valueOf(score), SCOREXLOC+20, SCOREYLOC+20);
 
-        //game paused
+        //game over
         if (this.drawPaused) {
             graphics.setFont(new Font("", Font.BOLD, 16));
             graphics.setColor(Color.BLUE);
-            graphics.drawString("PAUSED", Board.boardWidth * PIECE_WIDTH + 30, 300);
-            graphics.drawString("Press 'P' ", Board.boardWidth * PIECE_WIDTH + 30, 320);
-            graphics.drawString("to continue", Board.boardWidth * PIECE_WIDTH + 30, 340);
-        }
-
-        //game over
-        if (this.drawGameOver) {
+            graphics.drawString("PAUSED", Board.boardWidth * PIECE_WIDTH + 23, 300);
+            graphics.drawString("Press 'P' ", Board.boardWidth * PIECE_WIDTH + 23, 320);
+            graphics.drawString("to continue", Board.boardWidth * PIECE_WIDTH + 23, 340);
+        } else if (this.drawGameOver) {
             new Thread(() -> {
                 playMusic("wav/game_over.wav", false);
             }).start();
             playMusicTracker.put(FIRST_SCORE_BRACKET, true);
             graphics.setFont(new Font("", Font.BOLD, 16));
             graphics.setColor(Color.BLUE);
-            graphics.drawString("GAME OVER!", Board.boardWidth * PIECE_WIDTH + 40, 300);
+            graphics.drawString("GAME OVER!", Board.boardWidth * PIECE_WIDTH + 23, 300);
         }
 
         graphics.setFont(new Font("", Font.PLAIN, 12));

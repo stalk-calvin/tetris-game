@@ -244,12 +244,12 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
             this.drawGame();
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
             pauseGame();
-        } else if (e.getKeyCode() == KeyEvent.VK_N) {
+        } else if (e.getKeyCode() == KeyEvent.VK_X) {
             this.restart();
         }
     }
 
-    public void pauseGame() {
+    void pauseGame() {
         this.paused = !this.paused;
         canvas.setPaused(this.paused);
         countdown.pause(this.paused);
