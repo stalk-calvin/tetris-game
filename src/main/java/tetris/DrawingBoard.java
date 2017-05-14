@@ -31,19 +31,19 @@ class DrawingBoard extends Canvas {
     private static final int NPWIDTH = 128;
     private static final int NPHEIGHT = 100;
     private static final int GAMEINFOWIDTH = 128;
-    private static final int GAMEINFOHEIGHT = 298;
+    private static final int GAMEINFOHEIGHT = 299;
     private static final int GAMEINFOXLOC = Board.boardWidth * PIECE_WIDTH + 10;
-    private static final int GAMEINFOYLOC = 125;
+    private static final int GAMEINFOYLOC = 105;
     private static final int SCOREXLOC = Board.boardWidth * PIECE_WIDTH + 17;
-    private static final int SCOREYLOC = 145;
+    private static final int SCOREYLOC = 125;
     private static final int ROWSXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int ROWSYLOC = 185;
+    private static final int ROWSYLOC = 165;
     private static final int ROTATIONXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int ROTATIONYLOC = 205;
+    private static final int ROTATIONYLOC = 185;
     private static final int LEVELXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int LEVELYLOC = 225;
+    private static final int LEVELYLOC = 205;
     private static final int TIMELEFTXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int TIMELEFTYLOC = 245;
+    private static final int TIMELEFTYLOC = 225;
 
     private int[][] boardArray;
     private int[][] piece, nextPiece;

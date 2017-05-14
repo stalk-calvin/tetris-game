@@ -73,7 +73,7 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
 
     @Override
     public int getHeight() {
-        return Block.BLOCK_LENGTH * Board.boardHeight + 40;
+        return Block.BLOCK_LENGTH * Board.boardHeight + 28;
     }
 
     public void run() {
