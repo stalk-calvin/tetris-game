@@ -20,6 +20,8 @@ p - Pause game
 
 r - Change rotation (left/right)
 
+space - Drop the block down
+
 x - Restart Game
 
 ## Contributors

@@ -63,7 +63,7 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
         this.setLocation(dim.width/2-this.getWidth(), dim.height/2-this.getHeight());
 
         // thread start!
-        this.start();
+        start();
     }
 
     @Override
@@ -86,12 +86,12 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
 
                 if (tempRes == 1) {
                     // Not possible, place the piece where it is and we are done
-                    this.piecePlaced();
+                    piecePlaced();
                 } else {
                     // current piece is falling ...
                     cp.moveDown();
                 }
-                this.drawGame();
+                drawGame();
             }
 
             try {
@@ -104,7 +104,7 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
     }
 
     private void piecePlaced() {
-        int rows = 0;
+        int rows;
 
         b1.placePiece(cp.getCurrentState(), cp.getRowNum(), cp.getColNum(), true);
 
@@ -120,8 +120,8 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
             np.getRandom();
 
             rows = b1.calculateRowsCleared();
-            this.rowsCleared += rows;   // cleared so far
-            this.calculatePoints(rows);
+            rowsCleared += rows;   // cleared so far
+            calculatePoints(rows);
         }
     }
 
@@ -142,7 +142,7 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
         np = new Block();
         np.getRandom();
 
-        this.dropWait = DROP_INTERVAL;
+        dropWait = DROP_INTERVAL;
 
         paused = false;
         canvas.setPaused(false);
@@ -161,32 +161,32 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
             ex.printStackTrace();
         }
 
-        this.start(); //Gets the game rolling again
+        start(); //Gets the game rolling again
     }
 
     private void calculatePoints(int Rows) {
         switch (Rows) {
             case 0:
-                this.totalPoints += 0;
+                totalPoints += 0;
                 break;
             case 1:
-                this.totalPoints += ONE_ROW_CLEARED_POINT;
+                totalPoints += ONE_ROW_CLEARED_POINT;
                 break;
             case 2:
-                this.totalPoints += TWO_ROW_CLEARED_POINT;
+                totalPoints += TWO_ROW_CLEARED_POINT;
                 break;
             case 3:
-                this.totalPoints += THREE_ROW_CLEARED_POINT;
+                totalPoints += THREE_ROW_CLEARED_POINT;
                 break;
             case 4:
-                this.totalPoints += FOUR_ROW_CLEARED_POINT;
+                totalPoints += FOUR_ROW_CLEARED_POINT;
                 break;
         }
     }
 
     private void drawGame() {
-        canvas.setScore(this.totalPoints);          // Sets score value
-        canvas.setRowsComplete(this.rowsCleared);   // Sets rows cleared value
+        canvas.setScore(totalPoints);          // Sets score value
+        canvas.setRowsComplete(rowsCleared);   // Sets rows cleared value
         canvas.setNextPiece(np.getCurrentState());  // Sets the next piece
         canvas.setArrayBoard(b1.getBoardArray());   // Sets the board
         canvas.setPaintLocation(cp.getColNum(), cp.getRowNum());   //Sets the location to draw the current piece
@@ -196,69 +196,81 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (this.paused && e.getKeyCode() != KeyEvent.VK_P && e.getKeyCode() != KeyEvent.VK_N) {
+        if (paused && e.getKeyCode() != KeyEvent.VK_P && e.getKeyCode() != KeyEvent.VK_X) {
             return;
         }
 
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             tempRes = b1.placePiece(cp.getCurrentState(), cp.getRowNum() + 1, cp.getColNum(), false);
             if (tempRes == 1) {
-                this.piecePlaced();
+                piecePlaced();
             } else {
-                this.totalPoints++;
+                totalPoints++;
                 cp.moveDown();
-
-                this.drawGame();
+                drawGame();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             tempRes = b1.placePiece(cp.rotateRight(false), cp.getRowNum(), cp.getColNum(), false);
             if (tempRes != 1) {
-                if (this.rotateDirection == 'R') {
+                if (rotateDirection == 'R') {
                     cp.rotateRight(true);
-                    this.drawGame();
+                    drawGame();
                 } else {
                     cp.rotateLeft(true);
-                    this.drawGame();
+                    drawGame();
                 }
             }
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             tempRes = b1.placePiece(cp.getCurrentState(), cp.getRowNum(), cp.getColNum() + 1, false);
             if (tempRes != 1) {
                 cp.moveRight();
-                this.drawGame();
+                drawGame();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             tempRes = b1.placePiece(cp.getCurrentState(), cp.getRowNum(), cp.getColNum() - 1, false);
             if (tempRes != 1) {
                 cp.moveLeft();
-                this.drawGame();
+                drawGame();
             }
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            boolean movedDown = false;
+            while (!movedDown) {
+                tempRes = b1.placePiece(cp.getCurrentState(), cp.getRowNum() + 1, cp.getColNum(), false);
+                if (tempRes == 1) {
+                    piecePlaced();
+                    movedDown = true;
+                } else {
+                    totalPoints++;
+                    movedDown = cp.moveDown();
+                }
+            }
+            drawGame();
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
-            if (this.rotateDirection == 'R') {
-                this.rotateDirection = 'L';
+            if (rotateDirection == 'R') {
+                rotateDirection = 'L';
                 canvas.setRotationDirection("Left");
             } else {
-                this.rotateDirection = 'R';
+                rotateDirection = 'R';
                 canvas.setRotationDirection("Right");
             }
-            this.drawGame();
+            drawGame();
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
             pauseGame();
         } else if (e.getKeyCode() == KeyEvent.VK_X) {
-            this.restart();
+            restart();
         }
     }
 
     void pauseGame() {
-        this.paused = !this.paused;
-        canvas.setPaused(this.paused);
-        countdown.pause(this.paused);
-        this.drawGame();
+        paused = !paused;
+        canvas.setPaused(paused);
+        countdown.pause(paused);
+        drawGame();
     }
 
     public void timesUp(TimerEvent Event) {
-        this.dropWait -= DROP_TIME_REDUCTION;
-        this.canvas.setLevel(++this.level);
+        dropWait -= DROP_TIME_REDUCTION;
+        canvas.setLevel(++level);
         countdown = new timer.CountDown(MINUTE_TILL_NEXT_LVL);
         countdown.addTimesUpListener(this);
     }

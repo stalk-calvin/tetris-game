@@ -40,13 +40,13 @@ public class CountDown {
     }
 
     public long getTotalTime(){
-        if (!this.isPaused){
-            this.totalTime = (remainingTime.getTime().getTime() + this.timePassed) - System.currentTimeMillis();
-            if (this.totalTime <= 0){
-                this.fireNoTimeLeftEvent();
+        if (!isPaused){
+            totalTime = (remainingTime.getTime().getTime() + timePassed) - System.currentTimeMillis();
+            if (totalTime <= 0){
+                fireNoTimeLeftEvent();
             }
         }
-        return this.totalTime;
+        return totalTime;
     }
 
     public String formatAsDate(long date){
@@ -57,16 +57,16 @@ public class CountDown {
         if (paused){
             timer = new Timer();
         }else{
-            this.timePassed += timer.getTimePassed();
+            timePassed += timer.getTimePassed();
         }
-        this.isPaused = paused;
+        isPaused = paused;
     }
 
     private void fireNoTimeLeftEvent(){
-        this.countDownListners.timesUp(new TimerEvent(this));
+        countDownListners.timesUp(new TimerEvent(this));
     }
 
     public synchronized void addTimesUpListener(Alarmable a) {
-        this.countDownListners = a;
+        countDownListners = a;
     }
 }

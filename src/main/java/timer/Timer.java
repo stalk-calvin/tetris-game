@@ -27,8 +27,8 @@ class Timer {
     }
 
     long getTimePassed(){
-        if (!this.isPaused){
-            timePassed = System.currentTimeMillis() - this.now;
+        if (!isPaused){
+            timePassed = System.currentTimeMillis() - now;
         }
         return timePassed;
     }

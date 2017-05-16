@@ -13,6 +13,9 @@ import java.util.Map;
 class DrawingBoard extends Canvas {
 
     private static final int PIECE_WIDTH = 16;
+    private static final int xOffset = 5;
+    private static final int yOffset = 3;
+
     private static final int BLOCKDRAWSIZEPIECE = 14;
     private static final int FIRST_SCORE_BRACKET = 500;
     private static final int SECOND_SCORE_BRACKET = 1000;
@@ -21,8 +24,8 @@ class DrawingBoard extends Canvas {
     private static final int FIFTH_SCORE_BRACKET = 10000;
     private static final int SIXTH_SCORE_BRACKET = 50000;
     private static final int SEVENTH_SCORE_BRACKET = 100000;
-    private static final int GAMEAREAWIDTH = Board.boardWidth * PIECE_WIDTH + 5;
-    private static final int GAMEAREAHEIGHT = Board.boardHeight * PIECE_WIDTH + 3;
+    private static final int GAMEAREAWIDTH = Board.boardWidth * PIECE_WIDTH + xOffset;
+    private static final int GAMEAREAHEIGHT = Board.boardHeight * PIECE_WIDTH + yOffset;
 
     private static final int GAMEAREAXLOC = 1;
     private static final int GAMEAREAYLOC = 1;
@@ -33,23 +36,23 @@ class DrawingBoard extends Canvas {
     private static final int GAMEINFOWIDTH = 128;
     private static final int GAMEINFOHEIGHT = 299;
     private static final int GAMEINFOXLOC = Board.boardWidth * PIECE_WIDTH + 10;
-    private static final int GAMEINFOYLOC = 105;
+    private static final int GAMEINFOYLOC = 100 + yOffset;
     private static final int SCOREXLOC = Board.boardWidth * PIECE_WIDTH + 17;
-    private static final int SCOREYLOC = 125;
-    private static final int ROWSXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int ROWSYLOC = 165;
+    private static final int SCOREYLOC = 120 + yOffset;
+    private static final int ROWSXLOC = Board.boardWidth * PIECE_WIDTH + 17;
+    private static final int ROWSYLOC = 160 + yOffset;
     private static final int ROTATIONXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int ROTATIONYLOC = 185;
+    private static final int ROTATIONYLOC = 200 + yOffset;
     private static final int LEVELXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int LEVELYLOC = 205;
+    private static final int LEVELYLOC = 220 + yOffset;
     private static final int TIMELEFTXLOC = Board.boardWidth * PIECE_WIDTH + 12;
-    private static final int TIMELEFTYLOC = 225;
+    private static final int TIMELEFTYLOC = 240 + yOffset;
 
     private int[][] boardArray;
     private int[][] piece, nextPiece;
 
-    private int rowMultiplyer = 0;
-    private int columnMultiplyer = 0;
+    private int rowLocation = 0;
+    private int columnLocation = 0;
 
     private boolean drawGameOver = false;
     private boolean drawPaused = false;
@@ -57,7 +60,7 @@ class DrawingBoard extends Canvas {
 
     private int completedRows = 0;
     private long score = 0;
-    private int Level = 0;
+    private int level = 0;
     private int secondsTillNextLevel = 0;
     private String rotationDirection = "";
 
@@ -75,44 +78,44 @@ class DrawingBoard extends Canvas {
     }
 
     void setArrayPiece(int[][] arr) {
-        this.piece = arr;
+        piece = arr;
     }
 
     void setNextPiece(int[][] arr) {
-        this.nextPiece = arr;
+        nextPiece = arr;
     }
 
     void setGameOver(boolean go) {
-        this.drawGameOver = go;
+        drawGameOver = go;
     }
 
     void setArrayBoard(int[][] arr) {
-        this.boardArray = arr;
+        boardArray = arr;
     }
 
     void setPaintLocation(int columnLocation, int rowLocation) {
-        this.columnMultiplyer = columnLocation;
-        this.rowMultiplyer = rowLocation;
+        this.columnLocation = columnLocation;
+        this.rowLocation = rowLocation;
     }
 
     void setRowsComplete(int rows) {
-        this.completedRows = rows;
+        completedRows = rows;
     }
 
     void setScore(long score) {
         this.score = score;
     }
 
-    void setPaused(boolean Paused) {
-        this.drawPaused = Paused;
+    void setPaused(boolean isPaused) {
+        drawPaused = isPaused;
     }
 
-    void setLevel(int Level) {
-        this.Level = Level;
+    void setLevel(int level) {
+        this.level = level;
     }
 
     void setSeconds(int secs) {
-        this.secondsTillNextLevel = secs;
+        secondsTillNextLevel = secs;
     }
 
     void setRotationDirection(String direction) {
@@ -125,65 +128,67 @@ class DrawingBoard extends Canvas {
 
     public void paint(Graphics g) {
         if (offscreen == null) {
-            offscreen = createImage(this.getWidth(), this.getHeight());
+            offscreen = createImage(getWidth(), getHeight());
         }
 
+        // setup canvas
         Graphics graphics = offscreen.getGraphics();
-        graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
+        graphics.clearRect(0, 0, getWidth(), getHeight());
 
         graphics.setColor(Color.WHITE);
-        graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+        graphics.fillRect(0, 0, getWidth(), getHeight());
 
         graphics.setColor(Color.BLACK);
 
-        // where piece drops
+        // where piece drops (game area)
         graphics.drawRect(GAMEAREAXLOC, GAMEAREAYLOC, GAMEAREAWIDTH, GAMEAREAHEIGHT);
 
         // next piece
         graphics.drawRect(NPAREAXLOC, NPAREAYLOC, NPWIDTH, NPHEIGHT);
 
-        //Draw a white border to make a 'game info area'
+        // game info area
         graphics.drawRect(GAMEINFOXLOC, GAMEINFOYLOC, GAMEINFOWIDTH, GAMEINFOHEIGHT);
 
         // current piece
-        int r = PIECE_WIDTH * rowMultiplyer + 3, c = PIECE_WIDTH * columnMultiplyer;
+        int r = PIECE_WIDTH * rowLocation + yOffset;
+        int c = PIECE_WIDTH * columnLocation + xOffset;
 
         for (int[] aPiece : piece) {
             for (int j = 0; j < piece[0].length; j++) {
                 if (aPiece[j] != 0) {
                     graphics.setColor(Block.getColour(aPiece[j]));
-                    graphics.drawRect(c + 5, r, BLOCKDRAWSIZEPIECE, BLOCKDRAWSIZEPIECE);
+                    graphics.drawRect(c, r, BLOCKDRAWSIZEPIECE, BLOCKDRAWSIZEPIECE);
                 }
                 c += PIECE_WIDTH;
             }
-            c = PIECE_WIDTH * columnMultiplyer;
+            c = PIECE_WIDTH * columnLocation + xOffset;
             r += PIECE_WIDTH;
         }
 
-        // board
-        r = 3;
-        c = 0;
+        // let's fill it
+        r = yOffset;
+        c = xOffset;
         for (int[] aBoardArray : boardArray) {
             for (int l = 0; l < boardArray[0].length; l++) {
                 if (aBoardArray[l] != 0) {
                     graphics.setColor(Block.getColour(aBoardArray[l]));
-                    graphics.fillRect(c + 5, r, BLOCKDRAWSIZEPIECE, BLOCKDRAWSIZEPIECE);
+                    graphics.fillRect(c, r, BLOCKDRAWSIZEPIECE, BLOCKDRAWSIZEPIECE);
                 }
                 c += PIECE_WIDTH;
             }
-            c = 0;
+            c = xOffset;
             r += PIECE_WIDTH;
         }
         graphics.setColor(Color.BLACK);
 
         //next piece setup
-        int midr = (NPHEIGHT - (this.nextPiece.length * PIECE_WIDTH)) / 2;
-        int midc = (NPWIDTH - (this.nextPiece[0].length * PIECE_WIDTH)) / 2;
-        int row = 2 + midr, col = Board.boardWidth * PIECE_WIDTH + 5 + 5 + midc;
+        int midr = (NPHEIGHT - (nextPiece.length * PIECE_WIDTH)) / 2;
+        int midc = (NPWIDTH - (nextPiece[0].length * PIECE_WIDTH)) / 2;
+        int row = 2 + midr, col = Board.boardWidth * PIECE_WIDTH + xOffset + xOffset + midc;
 
         //draw next piece
-        for (int[] aNextPiece : this.nextPiece) {
-            for (int j = 0; j < this.nextPiece[0].length; j++) {
+        for (int[] aNextPiece : nextPiece) {
+            for (int j = 0; j < nextPiece[0].length; j++) {
                 if (aNextPiece[j] != 0) {
                     graphics.setColor(Block.getColour(aNextPiece[j]));
                     graphics.drawRect(col, row, BLOCKDRAWSIZEPIECE, BLOCKDRAWSIZEPIECE);
@@ -197,10 +202,11 @@ class DrawingBoard extends Canvas {
         //info section
         graphics.setColor(Color.BLACK);
         graphics.setFont(new Font("", Font.BOLD, 12));
-        graphics.drawString("Level: " + this.Level, LEVELXLOC, LEVELYLOC);
-        graphics.drawString("Rotation: " + this.rotationDirection, ROTATIONXLOC, ROTATIONYLOC);
+        graphics.drawString("Level: " + level, LEVELXLOC, LEVELYLOC);
+        graphics.drawString("Rotation: " + rotationDirection, ROTATIONXLOC, ROTATIONYLOC);
         graphics.drawString("Next level in: " + secondsTillNextLevel, TIMELEFTXLOC, TIMELEFTYLOC);
-        graphics.drawString("Completed Rows: " + this.completedRows, ROWSXLOC, ROWSYLOC);
+        graphics.drawString("Completed Rows: ", ROWSXLOC, ROWSYLOC);
+        graphics.drawString(String.valueOf(completedRows), ROWSXLOC+20, ROWSYLOC+20);
 
         //score alert
         if (score >= FIRST_SCORE_BRACKET && !playMusicTracker.get(FIRST_SCORE_BRACKET)) {
@@ -262,13 +268,15 @@ class DrawingBoard extends Canvas {
         graphics.drawString(String.valueOf(score), SCOREXLOC+20, SCOREYLOC+20);
 
         //game over
-        if (this.drawPaused) {
+        if (drawPaused) {
             graphics.setFont(new Font("", Font.BOLD, 16));
             graphics.setColor(Color.BLUE);
             graphics.drawString("PAUSED", Board.boardWidth * PIECE_WIDTH + 23, 300);
             graphics.drawString("Press 'P' ", Board.boardWidth * PIECE_WIDTH + 23, 320);
             graphics.drawString("to continue", Board.boardWidth * PIECE_WIDTH + 23, 340);
-        } else if (this.drawGameOver) {
+            graphics.drawString("Press 'X' ", Board.boardWidth * PIECE_WIDTH + 23, 360);
+            graphics.drawString("to restart", Board.boardWidth * PIECE_WIDTH + 23, 380);
+        } else if (drawGameOver) {
             new Thread(() -> {
                 playMusic("wav/game_over.wav", false);
             }).start();
@@ -276,6 +284,8 @@ class DrawingBoard extends Canvas {
             graphics.setFont(new Font("", Font.BOLD, 16));
             graphics.setColor(Color.BLUE);
             graphics.drawString("GAME OVER!", Board.boardWidth * PIECE_WIDTH + 23, 300);
+            graphics.drawString("Press 'X' ", Board.boardWidth * PIECE_WIDTH + 23, 320);
+            graphics.drawString("to restart", Board.boardWidth * PIECE_WIDTH + 23, 340);
         }
 
         graphics.setFont(new Font("", Font.PLAIN, 12));

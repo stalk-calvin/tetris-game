@@ -142,9 +142,11 @@ class Block {
         }
     }
 
-    void moveDown() {
+    boolean moveDown() {
         if (currentBlockState.length + this.blockRowLocation < Board.boardHeight) {
             this.blockRowLocation++;
+            return false;
         }
+        return true;
     }
 }

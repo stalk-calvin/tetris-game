@@ -19,11 +19,11 @@ class Board {
         for (int[] aPiece : Piece) {
             for (int c = 0; c < Piece[0].length; c++) {
                 try {
-                    if (this.boardArray[row][col] != 0 && aPiece[c] != 0) {
+                    if (boardArray[row][col] != 0 && aPiece[c] != 0) {
                         return 1;
                     } else {
                         if (shouldPlace) {
-                            this.boardArray[row][col] |= aPiece[c];
+                            boardArray[row][col] |= aPiece[c];
                         }
                         col++;
                     }
