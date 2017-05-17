@@ -6,13 +6,13 @@ class Block {
 
     static final int BLOCK_LENGTH = 16;
 
-    private int[][] tetrisBlockI = {{1}, {1}, {1}, {1}};
-    private int[][] tetrisBlockJ = {{2, 0, 0}, {2, 2, 2}};
-    private int[][] tetrisBlockL = {{0, 0, 3}, {3, 3, 3}};
-    private int[][] tetrisBlockO = {{4, 4}, {4, 4}};
-    private int[][] tetrisBlockS = {{0, 5, 5}, {5, 5, 0}};
-    private int[][] tetrisBlockT = {{0, 6, 0}, {6, 6, 6}};
-    private int[][] tetrisBlockZ = {{7, 7, 0}, {0, 7, 7}};
+    private static final int[][] tetrisBlockI = {{1}, {1}, {1}, {1}};
+    private static final int[][] tetrisBlockJ = {{2, 0, 0}, {2, 2, 2}};
+    private static final int[][] tetrisBlockL = {{0, 0, 3}, {3, 3, 3}};
+    private static final int[][] tetrisBlockO = {{4, 4}, {4, 4}};
+    private static final int[][] tetrisBlockS = {{0, 5, 5}, {5, 5, 0}};
+    private static final int[][] tetrisBlockT = {{0, 6, 0}, {6, 6, 6}};
+    private static final int[][] tetrisBlockZ = {{7, 7, 0}, {0, 7, 7}};
 
     private int[][] currentBlockState;
 
@@ -21,6 +21,10 @@ class Block {
     private int blockRowLocation = 0;
 
     Block() {
+    }
+
+    Block(int[][] currentBlock) {
+        currentBlockState = currentBlock;
     }
 
     //getter
@@ -47,25 +51,25 @@ class Block {
     int[][] getRandom() {
         switch ((int) (0 + Math.random() * 7)) {
             case 0:
-                this.currentBlockState = tetrisBlockI;
+                currentBlockState = tetrisBlockI;
                 return tetrisBlockI;
             case 1:
-                this.currentBlockState = tetrisBlockJ;
+                currentBlockState = tetrisBlockJ;
                 return tetrisBlockJ;
             case 2:
-                this.currentBlockState = tetrisBlockL;
+                currentBlockState = tetrisBlockL;
                 return tetrisBlockL;
             case 3:
-                this.currentBlockState = tetrisBlockO;
+                currentBlockState = tetrisBlockO;
                 return tetrisBlockO;
             case 4:
-                this.currentBlockState = tetrisBlockS;
+                currentBlockState = tetrisBlockS;
                 return tetrisBlockS;
             case 5:
-                this.currentBlockState = tetrisBlockT;
+                currentBlockState = tetrisBlockT;
                 return tetrisBlockT;
             case 6:
-                this.currentBlockState = tetrisBlockZ;
+                currentBlockState = tetrisBlockZ;
                 return tetrisBlockZ;
             default:
                 return null;
@@ -86,44 +90,44 @@ class Block {
 
     //rotator
     int[][] rotateRight(boolean shouldRotate) {
-        int newColLength = this.currentBlockState.length;
-        int newRowLength = this.currentBlockState[0].length;
+        int newColLength = currentBlockState.length;
+        int newRowLength = currentBlockState[0].length;
 
         int[][] rotate90Array = new int[newRowLength][newColLength];
         for (int r = 0; r < newRowLength; r++) {
             for (int c = 0; c < newColLength; c++) {
-                rotate90Array[r][c] = this.currentBlockState[newColLength - c - 1][r];
+                rotate90Array[r][c] = currentBlockState[newColLength - c - 1][r];
             }
         }
 
         // when the peice went overboard
-        if (this.blockColLocation + newColLength > Board.boardWidth) {
-            this.blockColLocation = Board.boardWidth - newColLength;
+        if (blockColLocation + newColLength > Board.boardWidth) {
+            blockColLocation = Board.boardWidth - newColLength;
         }
 
         if (shouldRotate) {
-            this.currentBlockState = rotate90Array;
+            currentBlockState = rotate90Array;
         }
 
         return rotate90Array;
     }
 
     int[][] rotateLeft(boolean shouldRotate) {
-        int newColLength = this.currentBlockState.length;
-        int newRowLength = this.currentBlockState[0].length;
+        int newColLength = currentBlockState.length;
+        int newRowLength = currentBlockState[0].length;
 
         int[][] rotate270Array = new int[newRowLength][newColLength];
         for (int r = 0; r < newRowLength; r++) {
             for (int c = 0; c < newColLength; c++) {
-                rotate270Array[r][c] = this.currentBlockState[c][newRowLength - r - 1];
+                rotate270Array[r][c] = currentBlockState[c][newRowLength - r - 1];
             }
         }
 
-        if (this.blockColLocation + newColLength > Board.boardWidth) {
-            this.blockColLocation = Board.boardWidth - newColLength;
+        if (blockColLocation + newColLength > Board.boardWidth) {
+            blockColLocation = Board.boardWidth - newColLength;
         }
         if (shouldRotate) {
-            this.currentBlockState = rotate270Array;
+            currentBlockState = rotate270Array;
         }
 
         return rotate270Array;
@@ -131,20 +135,20 @@ class Block {
 
     //mover
     void moveLeft() {
-        if (this.blockColLocation > 0) {
-            this.blockColLocation--;
+        if (blockColLocation > 0) {
+            blockColLocation--;
         }
     }
 
     void moveRight() {
-        if (this.blockColLocation + currentBlockState[0].length < Board.boardWidth) {
-            this.blockColLocation++;
+        if (blockColLocation + currentBlockState[0].length < Board.boardWidth) {
+            blockColLocation++;
         }
     }
 
     boolean moveDown() {
-        if (currentBlockState.length + this.blockRowLocation < Board.boardHeight) {
-            this.blockRowLocation++;
+        if (currentBlockState.length + blockRowLocation < Board.boardHeight) {
+            blockRowLocation++;
             return false;
         }
         return true;

@@ -240,7 +240,7 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
                     piecePlaced();
                     movedDown = true;
                 } else {
-                    totalPoints++;
+                    totalPoints += 2;
                     movedDown = cp.moveDown();
                 }
             }

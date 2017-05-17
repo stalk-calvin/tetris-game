@@ -22,8 +22,8 @@ class DrawingBoard extends Canvas {
     private static final int THIRD_SCORE_BRACKET = 3000;
     private static final int FOURTH_SCORE_BRACKET = 5000;
     private static final int FIFTH_SCORE_BRACKET = 10000;
-    private static final int SIXTH_SCORE_BRACKET = 50000;
-    private static final int SEVENTH_SCORE_BRACKET = 100000;
+    private static final int SIXTH_SCORE_BRACKET = 20000;
+    private static final int SEVENTH_SCORE_BRACKET = 30000;
     private static final int GAMEAREAWIDTH = Board.boardWidth * PIECE_WIDTH + xOffset;
     private static final int GAMEAREAHEIGHT = Board.boardHeight * PIECE_WIDTH + yOffset;
 
