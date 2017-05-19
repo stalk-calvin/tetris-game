@@ -14,6 +14,7 @@ import timer.TimerEvent;
 class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
 
     // Points distribution per row
+    private static final String TITLE = "Calvin's Tetris";
     private static final int ONE_ROW_CLEARED_POINT = 100;
     private static final int TWO_ROW_CLEARED_POINT = 300;
     private static final int THREE_ROW_CLEARED_POINT = 600;
@@ -38,6 +39,9 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
     Tetris() {
         // Let's register as alarmable to speedup/levelup
         countdown.addTimesUpListener(this);
+
+        // Add title to the frame
+        this.setTitle(TITLE);
 
         Runnable task = () -> { playMusic("wav/bgMusic.wav", true); };
         new Thread(task).start();
@@ -273,8 +277,14 @@ class Tetris extends JFrame implements Runnable, Alarmable, KeyListener {
             }
             drawGame();
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
+            new Thread(() -> {
+                playMusic("wav/tap.wav", false);
+            }).start();
             pauseGame();
         } else if (e.getKeyCode() == KeyEvent.VK_X) {
+            new Thread(() -> {
+                playMusic("wav/tap.wav", false);
+            }).start();
             restart();
         }
     }

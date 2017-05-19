@@ -272,9 +272,9 @@ class DrawingBoard extends Canvas {
             graphics.setFont(new Font("", Font.BOLD, 16));
             graphics.setColor(Color.BLUE);
             graphics.drawString("PAUSED", Board.boardWidth * PIECE_WIDTH + 23, 300);
-            graphics.drawString("Press 'P' ", Board.boardWidth * PIECE_WIDTH + 23, 320);
+            graphics.drawString("Press 'p' ", Board.boardWidth * PIECE_WIDTH + 23, 320);
             graphics.drawString("to continue", Board.boardWidth * PIECE_WIDTH + 23, 340);
-            graphics.drawString("Press 'X' ", Board.boardWidth * PIECE_WIDTH + 23, 360);
+            graphics.drawString("Press 'x' ", Board.boardWidth * PIECE_WIDTH + 23, 360);
             graphics.drawString("to restart", Board.boardWidth * PIECE_WIDTH + 23, 380);
         } else if (drawGameOver) {
             new Thread(() -> {
@@ -284,7 +284,7 @@ class DrawingBoard extends Canvas {
             graphics.setFont(new Font("", Font.BOLD, 16));
             graphics.setColor(Color.BLUE);
             graphics.drawString("GAME OVER!", Board.boardWidth * PIECE_WIDTH + 23, 300);
-            graphics.drawString("Press 'X' ", Board.boardWidth * PIECE_WIDTH + 23, 320);
+            graphics.drawString("Press 'x' ", Board.boardWidth * PIECE_WIDTH + 23, 320);
             graphics.drawString("to restart", Board.boardWidth * PIECE_WIDTH + 23, 340);
         }
 

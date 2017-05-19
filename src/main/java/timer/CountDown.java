@@ -56,7 +56,7 @@ public class CountDown {
     public void pause(boolean paused){
         if (paused){
             timer = new Timer();
-        }else{
+        } else {
             timePassed += timer.getTimePassed();
         }
         isPaused = paused;
