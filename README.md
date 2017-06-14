@@ -64,5 +64,4 @@ Calvin Lee, @stalk.calvin
 
 ## Ways to play the game:
 
-1. `mvn clean compile test package` to run as jar
-2. Run the main function from Main class
+`mvn install exec:java -Dexec.mainClass="tetris.Main"`
