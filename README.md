@@ -64,4 +64,6 @@ Calvin Lee, @stalk.calvin
 
 ## Ways to play the game:
 
-`mvn install exec:java -Dexec.mainClass="tetris.Main"`
+1. clone repo: https://github.com/stalk-calvin/tetris-game.git
+2. cd tetris-game
+3. run: `mvn install exec:java -Dexec.mainClass="tetris.Main"`
