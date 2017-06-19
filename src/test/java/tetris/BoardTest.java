@@ -32,8 +32,10 @@ public class BoardTest {
         assertEquals(0, fixture.placePiece(cp.getRandom(),cp.getRowNum(),cp.getColNum(),true));
 
         int col = cp.getColNum();
-        int actualFirstRow = fixture.getBoardArray()[0][col-1] + fixture.getBoardArray()[0][col] + fixture.getBoardArray()[0][col+1];
-        int actualSecondRow = fixture.getBoardArray()[1][col-1] + fixture.getBoardArray()[1][col] + fixture.getBoardArray()[1][col+1];
+        int actualFirstRow = fixture.getBoardArray()[0][col - 2] + fixture.getBoardArray()[0][col - 1] + fixture
+                .getBoardArray()[0][col] + fixture.getBoardArray()[0][col + 1] + fixture.getBoardArray()[0][col + 2];
+        int actualSecondRow = fixture.getBoardArray()[1][col - 2] + fixture.getBoardArray()[1][col - 1] + fixture
+                .getBoardArray()[1][col] + fixture.getBoardArray()[1][col + 1] + fixture.getBoardArray()[1][col + 2];
         assertTrue(actualFirstRow > 0);
         assertTrue(actualSecondRow > 0);
     }
